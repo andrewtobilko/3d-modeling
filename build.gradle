@@ -7,5 +7,7 @@ repositories {
 }
 
 dependencies {
-    compile 'org.projectlombok:lombok:1.16.18'
+    compile 'org.projectlombok:lombok:1.16.18',
+            'com.google.inject:guice:4.1.0',
+            'com.google.inject.extensions:guice-multibindings:4.1.0'
 }

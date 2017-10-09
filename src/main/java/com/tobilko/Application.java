@@ -1,11 +1,15 @@
 package com.tobilko;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import javax.inject.Inject;
 
 
 /**
@@ -15,12 +19,10 @@ public final class Application extends javafx.application.Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-
+        Injector injector = Guice.createInjector(new ApplicationModule());
         Group root = new Group();
-        Canvas canvas = new Canvas(1000, 1000);
-        GraphicsContext context = canvas.getGraphicsContext2D();
-        root.getChildren().add(canvas);
-        //drawLine(context);
+
+        root.getChildren().add(injector.getInstance(Canvas.class));
         stage.setScene(new Scene(root));
         stage.show();
 
