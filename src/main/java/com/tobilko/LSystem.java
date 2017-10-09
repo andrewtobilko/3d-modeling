@@ -1,5 +1,7 @@
 package com.tobilko;
 
+import com.sun.javafx.css.Rule;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import java.util.HashMap;
@@ -12,19 +14,19 @@ public final class LSystem {
     private final int n;
     private final int angle;
 
-    public void display(Point initialPoint, int initAngle) {
+    public void display(int initX, int initY, int initAngle, int scale) {
         StringBuilder currentRule = new StringBuilder(axiom);
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < currentRule.toString().length(); ++j) {
                 char c = currentRule.charAt(j);
                 if (rules.containsKey(c)) {
                     String rule = rules.get(c);
-                    currentRule.replace(j, j + 1, rule);
-                    j += rule.length() - 1;
+                    currentRule.replace(j, j+1, rule);
+                    j += rule.length()-1;
                 }
             }
         }
-        new RuleProcessor(initialPoint, initAngle - angle).execute(currentRule.toString());
+        new RuleProcessor(initX, initY, initAngle, angle, scale).execute(currentRule.toString());
     }
 }
 
@@ -37,7 +39,7 @@ class A {
                 "+RFY",
                 rules,
                 5,
-                60).display(Point.of(50, 50), 0);
+                60).display(50,50, 0, 10);
     }
 }
 
@@ -52,42 +54,44 @@ class A {
 * ']' - restore last position and angle
 * */
 class RuleProcessor {
-
     @RequiredArgsConstructor
-    private final class State {
-        private final Point point;
-        private final int direction;
+    private class State {
+        private final int x, y, direction;
     }
-
     private State currentState;
+    private int angle;
+    private int scale;
 
-    public RuleProcessor(Point point, int direction) {
-        currentState = new State(point, direction);
+    public RuleProcessor(int startX, int startY, int direction, int ang, int scale) {
+        currentState = new State(startX, startY, direction);
+        angle = ang;
     }
 
     private Stack<State> stack;
 
     public void execute(String rule) {
-        for (char ch : rule.toCharArray()) {
+        for (char ch: rule.toCharArray()) {
             int nextX, nextY;
             switch (ch) {
-                case 'F':
-
+                case 'F' :
+                    nextX = currentState.x + (int)(scale*Math.cos(Math.toRadians(currentState.direction)));
+                    nextY = currentState.y - (int)(scale*Math.sin(Math.toRadians(currentState.direction)));
+                    //drawLine(currentState.x, currentState.y, nextX, nextY);
+                    break;
+                case 'G' :
+                    nextX = currentState.x + (int)(scale*Math.cos(Math.toRadians(currentState.direction)));
+                    nextY = currentState.y - (int)(scale*Math.sin(Math.toRadians(currentState.direction)));
+                    break;
+                case '+' :
+                    //currentState.direction +=
+                    break;
+                case '-' :
 
                     break;
-                case 'G':
+                case '[' :
 
                     break;
-                case '+':
-
-                    break;
-                case '-':
-
-                    break;
-                case '[':
-
-                    break;
-                case ']':
+                case ']' :
 
                     break;
                 default:
