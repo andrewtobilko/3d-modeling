@@ -36,13 +36,13 @@ public class RuleProcessor {
 
     public void execute(String rule) {
         for (char ch: rule.toCharArray()) {
-            int nextX, nextY;
+            double nextX, nextY;
             switch (ch) {
                 case 'F' : {
                     Point currentPoint = currentState.getPoint();
 
-                    nextX = currentPoint.getX() + (int) (scale * Math.cos(Math.toRadians(currentState.direction)));
-                    nextY = currentPoint.getY() - (int) (scale * Math.sin(Math.toRadians(currentState.direction)));
+                    nextX = currentPoint.getX() + (scale * Math.cos(Math.toRadians(currentState.direction)));
+                    nextY = currentPoint.getY() - (scale * Math.sin(Math.toRadians(currentState.direction)));
 
                     Point nextPoint = Point.of(nextX, nextY);
 
@@ -54,8 +54,8 @@ public class RuleProcessor {
                 case 'G' : {
                     Point currentPoint = currentState.getPoint();
 
-                    nextX = currentPoint.getX() + (int) (scale * Math.cos(Math.toRadians(currentState.direction)));
-                    nextY = currentPoint.getY() - (int) (scale * Math.sin(Math.toRadians(currentState.direction)));
+                    nextX = currentPoint.getX() + (scale * Math.cos(Math.toRadians(currentState.direction)));
+                    nextY = currentPoint.getY() - (scale * Math.sin(Math.toRadians(currentState.direction)));
 
                     currentState.setPoint(Point.of(nextX, nextY));
                     break;

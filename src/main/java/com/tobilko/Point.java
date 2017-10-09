@@ -9,8 +9,8 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor(staticName = "of")
 public final class Point {
-    private final int x;
-    private final int y;
+    private final double x;
+    private final double y;
 
     public Point(Point point) {
         this.x = point.x;

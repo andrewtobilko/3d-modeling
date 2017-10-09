@@ -23,17 +23,21 @@ public class ApplicationModule extends AbstractModule {
     @Singleton
     private LSystem getLSystem() {
         return new LSystem(
-                "X",
-                ImmutableMap.of('X', "F-[[X]+X]+F[+FX]-X"),
-                6,
-                22);
+                "+R",
+                ImmutableMap.of(
+                        'R', "RFRF--RFRF--FF-",
+                        'F', "GG",
+                        'G', "GG"
+                ),
+                2,
+                60);
     }
 
     @Singleton
     private LSystemRenderer.InitialRenderParameters getInitialRenderParameters() {
         return LSystemRenderer.InitialRenderParameters.of(
-            Point.of(500, 800),
-                90,
+            Point.of(500, 500),
+                0,
                 50
         );
     }
