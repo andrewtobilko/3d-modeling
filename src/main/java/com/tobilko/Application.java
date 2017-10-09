@@ -14,6 +14,8 @@ public final class Application extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws Exception {
 
+        Root root = new FXMLLoader(new File("src/main/resources/application.fxml").toURI().toURL()).load();
+
         stage.setScene(new Scene(new FXMLLoader(new File("src/main/resources/application.fxml").toURI().toURL()).load()));
         stage.show();
 
