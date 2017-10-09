@@ -1,5 +1,11 @@
 package com.tobilko;
 
+import javafx.scene.canvas.GraphicsContext;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+
 import java.util.Stack;
 
 /*
@@ -12,42 +18,48 @@ import java.util.Stack;
 * ']' - restore last position and angle
 * */
 public class RuleProcessor {
-    private class State {
-        private int x, y, direction;
-        public State(int ix, int iy, int dir) {
-            x = ix;
-            y = iy;
-            direction = dir;
-        }
-    }
+
+    private final Stack<State> stack;
     private State currentState;
-    private int angle;
-    private int scale;
+    private final int angle;
+    private final int scale;
 
-    public RuleProcessor(int startX, int startY, int direction, int ang, int scale) {
-        currentState = new State(startX, startY, direction);
+    private GraphicsContext context; // todo
+
+    public RuleProcessor(Point point, int direction, int ang, int scale, GraphicsContext context) {
+        currentState = new State(point, direction);
         angle = ang;
+        this.scale = scale;
+        stack = new Stack<>();
+        this.context = context;
     }
-
-    private Stack<State> stack = new Stack<State>();
 
     public void execute(String rule) {
         for (char ch: rule.toCharArray()) {
             int nextX, nextY;
             switch (ch) {
-                case 'F' :
-                    nextX = currentState.x + (int)(scale*Math.cos(Math.toRadians(currentState.direction)));
-                    nextY = currentState.y - (int)(scale*Math.sin(Math.toRadians(currentState.direction)));
-                    //drawLine(currentState.x, currentState.y, nextX, nextY);
-                    currentState.x = nextX;
-                    currentState.y = nextY;
+                case 'F' : {
+                    Point currentPoint = currentState.getPoint();
+
+                    nextX = currentPoint.getX() + (int) (scale * Math.cos(Math.toRadians(currentState.direction)));
+                    nextY = currentPoint.getY() - (int) (scale * Math.sin(Math.toRadians(currentState.direction)));
+
+                    Point nextPoint = Point.of(nextX, nextY);
+
+                    ElementRenderer.drawLine(context, currentPoint, nextPoint);
+                    currentState.setPoint(nextPoint);
+
                     break;
-                case 'G' :
-                    nextX = currentState.x + (int)(scale*Math.cos(Math.toRadians(currentState.direction)));
-                    nextY = currentState.y - (int)(scale*Math.sin(Math.toRadians(currentState.direction)));
-                    currentState.x = nextX;
-                    currentState.y = nextY;
+                }
+                case 'G' : {
+                    Point currentPoint = currentState.getPoint();
+
+                    nextX = currentPoint.getX() + (int) (scale * Math.cos(Math.toRadians(currentState.direction)));
+                    nextY = currentPoint.getY() - (int) (scale * Math.sin(Math.toRadians(currentState.direction)));
+
+                    currentState.setPoint(Point.of(nextX, nextY));
                     break;
+                }
                 case '+' :
                     currentState.direction += angle;
                     if (currentState.direction > 359)
@@ -69,5 +81,16 @@ public class RuleProcessor {
             }
         }
     }
+
+    @Getter
+    @Setter
+    @RequiredArgsConstructor
+    private class State {
+
+        private @NonNull Point point;
+        private @NonNull int direction;
+
+    }
+
 }
 

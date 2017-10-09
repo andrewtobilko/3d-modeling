@@ -5,11 +5,7 @@ import com.google.inject.Injector;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
-import javax.inject.Inject;
 
 
 /**
@@ -20,19 +16,19 @@ public final class Application extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws Exception {
         Injector injector = Guice.createInjector(new ApplicationModule());
+
+        configureStageWithInjector(stage, injector);
+        stage.show();
+    }
+
+    private void configureStageWithInjector(Stage stage, Injector injector) {
         Group root = new Group();
 
         root.getChildren().add(injector.getInstance(Canvas.class));
+
+        injector.getInstance(LSystemRenderer.class).render();
+
         stage.setScene(new Scene(root));
-        stage.show();
-
-    }
-
-    private void drawLine(Point a, Point b) {
-//        context.setFill(Color.BLACK);
-//        context.setStroke(Color.BLACK);
-//        context.setLineWidth(5);
-//        context.strokeLine(a.getX(), a.getY(), b.getX(), b.getY());
     }
 
     public static void main(String[] args) {
