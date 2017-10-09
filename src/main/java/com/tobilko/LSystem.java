@@ -54,9 +54,13 @@ class A {
 * ']' - restore last position and angle
 * */
 class RuleProcessor {
-    @RequiredArgsConstructor
     private class State {
-        private final int x, y, direction;
+        private int x, y, direction;
+        public State(int ix, int iy, int dir) {
+            x = ix;
+            y = iy;
+            direction = dir;
+        }
     }
     private State currentState;
     private int angle;
@@ -77,16 +81,24 @@ class RuleProcessor {
                     nextX = currentState.x + (int)(scale*Math.cos(Math.toRadians(currentState.direction)));
                     nextY = currentState.y - (int)(scale*Math.sin(Math.toRadians(currentState.direction)));
                     //drawLine(currentState.x, currentState.y, nextX, nextY);
+                    currentState.x = nextX;
+                    currentState.y = nextY;
                     break;
                 case 'G' :
                     nextX = currentState.x + (int)(scale*Math.cos(Math.toRadians(currentState.direction)));
                     nextY = currentState.y - (int)(scale*Math.sin(Math.toRadians(currentState.direction)));
+                    currentState.x = nextX;
+                    currentState.y = nextY;
                     break;
                 case '+' :
-                    //currentState.direction +=
+                    currentState.direction += angle;
+                    if (currentState.direction > 359)
+                        currentState.direction -= 360;
                     break;
                 case '-' :
-
+                    currentState.direction -= angle;
+                    if (currentState.direction < 0)
+                        currentState.direction += 360;
                     break;
                 case '[' :
 
