@@ -71,7 +71,7 @@ public class RuleProcessor {
                         currentState.direction += 360;
                     break;
                 case '[' :
-                    stack.push(currentState);
+                    stack.push(new State(currentState));
                     break;
                 case ']' :
                     currentState = stack.pop();
@@ -90,6 +90,9 @@ public class RuleProcessor {
         private @NonNull Point point;
         private @NonNull int direction;
 
+        public State(State state) {
+            this(new Point(state.point), state.direction);
+        }
     }
 
 }

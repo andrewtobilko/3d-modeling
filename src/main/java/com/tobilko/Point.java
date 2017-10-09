@@ -11,4 +11,9 @@ import lombok.RequiredArgsConstructor;
 public final class Point {
     private final int x;
     private final int y;
+
+    public Point(Point point) {
+        this.x = point.x;
+        this.y = point.y;
+    }
 }
