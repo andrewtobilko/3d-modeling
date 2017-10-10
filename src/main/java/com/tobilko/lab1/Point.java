@@ -1,4 +1,4 @@
-package com.tobilko;
+package com.tobilko.lab1;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

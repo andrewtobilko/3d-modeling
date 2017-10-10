@@ -1,4 +1,4 @@
-package com.tobilko;
+package com.tobilko.lab1;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;

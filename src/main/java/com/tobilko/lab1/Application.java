@@ -1,4 +1,4 @@
-package com.tobilko;
+package com.tobilko.lab1;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;

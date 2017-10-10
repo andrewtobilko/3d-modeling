@@ -1,4 +1,4 @@
-package com.tobilko;
+package com.tobilko.lab1;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.inject.AbstractModule;
@@ -23,14 +23,14 @@ public class ApplicationModule extends AbstractModule {
     @Singleton
     private LSystem getLSystem() {
         return new LSystem(
-                "+R",
+                "+WF--XF---YF--ZF",
                 ImmutableMap.of(
-                        'R', "RFRF--RFRF--FF-",
-                        'F', "GG",
-                        'G', "GG"
+                        'W', "YF++ZF----XF[-YF----WF]++",
+                        'X', "+YF--ZF[---WF--XF]+",
+                        'Y', "--YF++++WF[+ZF++++XF]-XF"
                 ),
                 2,
-                60);
+                10);
     }
 
     @Singleton
